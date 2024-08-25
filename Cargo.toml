@@ -1,0 +1,17 @@
+[package]
+name = "matrixutils"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+matrix-sdk = { version = "*", default-features = false, features = ["eyre", "sqlite", "native-tls", "e2e-encryption"] }
+
+tokio = { version = "*", features = ["tokio-macros", "full"] }
+futures-util = "*"
+
+url = { version = "*", features = ["serde"] }
+serde_json = "*"
+serde = "*"
+
+tracing = "*"
+eyre = "*"
