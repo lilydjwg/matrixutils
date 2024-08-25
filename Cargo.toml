@@ -5,8 +5,10 @@ edition = "2021"
 
 [dependencies]
 matrix-sdk = { version = "*", default-features = false, features = ["eyre", "sqlite", "native-tls", "e2e-encryption"] }
+matrix-sdk-base = "*"
 
-tokio = { version = "*", features = ["tokio-macros", "full"] }
+tokio = "*"
+futures = "*"
 futures-util = "*"
 
 url = { version = "*", features = ["serde"] }
