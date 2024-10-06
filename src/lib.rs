@@ -5,6 +5,7 @@ use tracing::info;
 pub mod login;
 pub mod verification;
 pub mod telegram;
+pub mod room;
 
 pub async fn ctrlc_wrapper<F>(main_fu: F) -> Result<()>
 where F: Future<Output=Result<()>>
