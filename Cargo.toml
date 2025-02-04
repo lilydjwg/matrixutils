@@ -1,13 +1,13 @@
 [package]
 name = "matrixutils"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 
 [dependencies]
 matrix-sdk = { version = "*", default-features = false, features = ["eyre", "sqlite", "native-tls", "e2e-encryption"] }
 matrix-sdk-base = "*"
 
-tokio = "*"
+tokio = { version = "*", features = ["signal"] }
 futures = "*"
 futures-util = "*"
 
