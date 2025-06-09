@@ -1,11 +1,16 @@
 [package]
 name = "matrixutils"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2021"
 
 [dependencies]
 matrix-sdk = { version = "*", default-features = false, features = ["eyre", "sqlite", "native-tls", "e2e-encryption"] }
 matrix-sdk-base = "*"
+
+# password login
+rustyline = { version = "*", default-features = false }
+pinentry = "*"
+secrecy = "0.10" # be consistent with pinentry
 
 tokio = { version = "*", features = ["signal"] }
 futures = "*"
