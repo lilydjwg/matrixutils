@@ -94,6 +94,7 @@ pub async fn interactive_login<P: AsRef<Path>>(
 
   Ok(client)
 }
+
 pub async fn get_client<P: AsRef<Path>>(logininfo: P) -> Result<Client> {
   info!("Login...");
   let f = std::fs::File::open(logininfo)?;
