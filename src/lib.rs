@@ -28,8 +28,9 @@ use std::time::Duration;
 
 use matrix_sdk_base::store::{StateStoreDataKey, StateStoreDataValue};
 use matrix_sdk::{Client, ruma, config::SyncSettings};
+use matrix_sdk::sync::SyncResponse;
 
-pub async fn sync_once(client: &Client) -> Result<SyncSettings> {
+pub async fn sync_once(client: &Client) -> Result<(SyncResponse,SyncSettings)> {
   let sync_token = client.state_store().get_kv_data(StateStoreDataKey::SyncToken).await?;
   let mut sync_settings = SyncSettings::new()
     .timeout(Duration::from_secs(600))
@@ -38,8 +39,8 @@ pub async fn sync_once(client: &Client) -> Result<SyncSettings> {
     sync_settings = sync_settings.token(token);
   }
   info!("Syncing once...");
-  client.sync_once(sync_settings.clone()).await?;
+  let res = client.sync_once(sync_settings.clone()).await?;
   info!("Synced.");
 
-  Ok(sync_settings)
+  Ok((res, sync_settings))
 }
