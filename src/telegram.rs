@@ -1,36 +1,29 @@
+use std::sync::LazyLock;
+use std::collections::HashMap;
+
 use matrix_sdk::ruma;
 
-static TELEGRAM_BRIDGES: &[&str] = &[
-  "nichi.co",
-  "t2bot.io",
-  "elv.sh",
-  "moe.cat",
-  "neo.angry.im",
-];
-
-static TELEGRAM_BRIDGES_2: &[&str] = &[
-  "tether.kimiblock.top",
-];
+static TELEGRAM_BRIDGES: LazyLock<HashMap<&str, &str>> = LazyLock::new(|| {
+  let mut m = HashMap::new();
+  m.insert("nichi.co", "telegram_");
+  m.insert("t2bot.io", "telegram_");
+  m.insert("elv.sh", "telegram_");
+  m.insert("moe.cat", "telegram_");
+  m.insert("kimiblock.top", "telegram_");
+  m.insert("neo.angry.im", "perigram_");
+  m.insert("tether.kimiblock.top", "tg_");
+  m
+});
 
 pub fn is_telegram(uid: &ruma::UserId) -> bool {
   get_telegram_id(uid).is_some()
 }
 
 pub fn get_telegram_id(uid: &ruma::UserId) -> Option<&str> {
-  if TELEGRAM_BRIDGES.contains(&uid.server_name().as_str()) {
-    uid.localpart().strip_prefix("telegram_")
-  } else if TELEGRAM_BRIDGES_2.contains(&uid.server_name().as_str()) {
-    uid.localpart().strip_prefix("tg_")
-  } else {
-    None
-  }
+  let server = uid.server_name().as_str();
+  TELEGRAM_BRIDGES.get(server).and_then(|prefix| uid.localpart().strip_prefix(prefix))
 }
 
 pub fn is_telegram_str(uid: &str) -> bool {
-  if let Some((user, server)) = uid.rsplit_once(':') {
-    (TELEGRAM_BRIDGES.contains(&server) && user.starts_with("@telegram_"))
-      || (TELEGRAM_BRIDGES_2.contains(&server) && user.starts_with("@tg_"))
-  } else {
-    false
-  }
+  ruma::UserId::parse(uid).ok().as_deref().and_then(get_telegram_id).is_some()
 }
