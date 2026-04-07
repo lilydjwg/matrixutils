@@ -1,7 +1,7 @@
 [package]
 name = "matrixutils"
-version = "0.2.0"
-edition = "2021"
+version = "0.2.1"
+edition = "2024"
 
 [dependencies]
 matrix-sdk = { version = "*", default-features = false, features = ["eyre", "sqlite", "native-tls", "e2e-encryption"] }

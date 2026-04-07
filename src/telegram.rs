@@ -13,10 +13,17 @@ static TELEGRAM_BRIDGES_2: &[&str] = &[
 ];
 
 pub fn is_telegram(uid: &ruma::UserId) -> bool {
-  (TELEGRAM_BRIDGES.contains(&uid.server_name().as_str())
-   && uid.localpart().starts_with("telegram_"))
-  || (TELEGRAM_BRIDGES_2.contains(&uid.server_name().as_str())
-    && uid.localpart().starts_with("tg_"))
+  get_telegram_id(uid).is_some()
+}
+
+pub fn get_telegram_id(uid: &ruma::UserId) -> Option<&str> {
+  if TELEGRAM_BRIDGES.contains(&uid.server_name().as_str()) {
+    uid.localpart().strip_prefix("telegram_")
+  } else if TELEGRAM_BRIDGES_2.contains(&uid.server_name().as_str()) {
+    uid.localpart().strip_prefix("tg_")
+  } else {
+    None
+  }
 }
 
 pub fn is_telegram_str(uid: &str) -> bool {
