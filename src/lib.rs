@@ -26,8 +26,8 @@ where F: Future<Output=Result<()>>
 
 use std::time::Duration;
 
-use matrix_sdk_base::store::{StateStoreDataKey, StateStoreDataValue};
 use matrix_sdk::{Client, ruma, config::SyncSettings};
+use matrix_sdk::store::{StateStoreDataKey, StateStoreDataValue};
 use matrix_sdk::sync::SyncResponse;
 
 pub async fn sync_once(client: &Client) -> Result<(SyncResponse,SyncSettings)> {

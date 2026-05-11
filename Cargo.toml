@@ -1,11 +1,10 @@
 [package]
 name = "matrixutils"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2024"
 
 [dependencies]
-matrix-sdk = { version = "*", default-features = false, features = ["eyre", "sqlite", "native-tls", "e2e-encryption"] }
-matrix-sdk-base = "*"
+matrix-sdk = { version = "*", features = ["eyre"] }
 
 # password login
 rustyline = { version = "*", default-features = false }
