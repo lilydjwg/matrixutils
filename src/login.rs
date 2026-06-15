@@ -123,8 +123,12 @@ async fn build_client(
   homeserver: Option<&url::Url>,
 ) -> Result<Client> {
   use matrix_sdk::encryption::{EncryptionSettings, BackupDownloadStrategy};
+  let request_config = matrix_sdk::config::RequestConfig::default().timeout(
+    std::time::Duration::from_secs(3600)
+  );
   let mut builder = Client::builder()
     .sqlite_store("states", None)
+    .request_config(request_config)
     .with_encryption_settings(EncryptionSettings {
         auto_enable_cross_signing: true,
         auto_enable_backups: true,
