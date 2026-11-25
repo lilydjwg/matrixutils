@@ -19,9 +19,11 @@ pub fn is_telegram(uid: &ruma::UserId) -> bool {
   get_telegram_id(uid).is_some()
 }
 
-pub fn get_telegram_id(uid: &ruma::UserId) -> Option<&str> {
+pub fn get_telegram_id(uid: &ruma::UserId) -> Option<u64> {
   let server = uid.server_name().as_str();
-  TELEGRAM_BRIDGES.get(server).and_then(|prefix| uid.localpart().strip_prefix(prefix))
+  TELEGRAM_BRIDGES.get(server)
+    .and_then(|prefix| uid.localpart().strip_prefix(prefix))
+    .and_then(|s| s.parse().ok())
 }
 
 pub fn is_telegram_str(uid: &str) -> bool {
